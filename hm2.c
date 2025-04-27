@@ -6,12 +6,15 @@
 void printRightTriangle(int n);
 void displayMultiplicationTable();
 void calculateSumOfSquares(int n);
+void pauseAndContinue();
+void clearScreen();
 
 int main() {
     char choice;
     int n;
 
     while (1) {
+        clearScreen();
         // Display menu
         printf("\n=================\n");
         printf("a. Print Right Triangle\n");
@@ -23,21 +26,31 @@ int main() {
         choice = getchar();
         getchar(); // Consume the newline character
 
+        clearScreen();
+
         switch (choice) {
             case 'a':
-                printf("\nEnter the size of the triangle: ");
+                printf("\nEnter the size of the triangle (1-50): ");
                 scanf("%d", &n);
                 getchar(); // Consume the newline character
-                printRightTriangle(n);
+                if (n < 1 || n > 50) {
+                    printf("Invalid size! Please enter a number between 1 and 50.\n");
+                } else {
+                    printRightTriangle(n);
+                }
                 break;
             case 'b':
                 displayMultiplicationTable();
                 break;
             case 'c':
-                printf("\nEnter an integer n: ");
+                printf("\nEnter an integer n (1-20): ");
                 scanf("%d", &n);
                 getchar(); // Consume the newline character
-                calculateSumOfSquares(n);
+                if (n < 1 || n > 20) {
+                    printf("Invalid input! Please enter a number between 1 and 20.\n");
+                } else {
+                    calculateSumOfSquares(n);
+                }
                 break;
             case 'x':
                 printf("\nExiting program. Goodbye!\n");
@@ -46,6 +59,9 @@ int main() {
                 printf("\nInvalid choice! Please try again.\n");
                 break;
         }
+
+        // Pause and ask if the user wants to continue
+        pauseAndContinue();
     }
     return 0;
 }
@@ -79,4 +95,28 @@ void calculateSumOfSquares(int n) {
         sum += i * i;
     }
     printf("\nThe sum of squares from 1 to %d^2 is: %d\n", n, sum);
+}
+
+// Function to pause and ask the user if they want to continue
+void pauseAndContinue() {
+    char response;
+    printf("\nDo you want to continue? (y/n): ");
+    response = getchar();
+    getchar(); // Consume the newline character
+
+    if (response == 'n' || response == 'N') {
+        printf("\nExiting program. Goodbye!\n");
+        exit(0);
+    } else if (response != 'y' && response != 'Y') {
+        printf("\nInvalid response! Assuming you want to continue.\n");
+    }
+}
+
+// Function to clear the screen
+void clearScreen() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
 }
