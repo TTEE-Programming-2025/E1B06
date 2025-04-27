@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ctype.h> // For tolower function
 
 // Function prototypes
 void printRightTriangle(int n);
@@ -28,12 +29,13 @@ int main() {
 
         clearScreen();
 
-        switch (choice) {
+        switch (tolower(choice)) { // Handle uppercase and lowercase inputs
             case 'a':
                 printf("\nEnter the size of the triangle (1-50): ");
-                scanf("%d", &n);
-                getchar(); // Consume the newline character
-                if (n < 1 || n > 50) {
+                if (scanf("%d", &n) != 1 || getchar() != '\n') { // Validate integer input
+                    printf("Invalid input! Please enter a valid number.\n");
+                    while (getchar() != '\n'); // Clear input buffer
+                } else if (n < 1 || n > 50) {
                     printf("Invalid size! Please enter a number between 1 and 50.\n");
                 } else {
                     printRightTriangle(n);
@@ -44,9 +46,10 @@ int main() {
                 break;
             case 'c':
                 printf("\nEnter an integer n (1-20): ");
-                scanf("%d", &n);
-                getchar(); // Consume the newline character
-                if (n < 1 || n > 20) {
+                if (scanf("%d", &n) != 1 || getchar() != '\n') { // Validate integer input
+                    printf("Invalid input! Please enter a valid number.\n");
+                    while (getchar() != '\n'); // Clear input buffer
+                } else if (n < 1 || n > 20) {
                     printf("Invalid input! Please enter a number between 1 and 20.\n");
                 } else {
                     calculateSumOfSquares(n);
@@ -90,11 +93,11 @@ void displayMultiplicationTable() {
 
 // Function to calculate the sum of squares from 1 to n*n
 void calculateSumOfSquares(int n) {
-    int sum = 0;
+    long long sum = 0; // Use long long for larger sums
     for (int i = 1; i <= n * n; i++) {
-        sum += i * i;
+        sum += (long long)i * i;
     }
-    printf("\nThe sum of squares from 1 to %d^2 is: %d\n", n, sum);
+    printf("\nThe sum of squares from 1 to %d^2 is: %lld\n", n, sum);
 }
 
 // Function to pause and ask the user if they want to continue
@@ -104,10 +107,10 @@ void pauseAndContinue() {
     response = getchar();
     getchar(); // Consume the newline character
 
-    if (response == 'n' || response == 'N') {
+    if (tolower(response) == 'n') {
         printf("\nExiting program. Goodbye!\n");
         exit(0);
-    } else if (response != 'y' && response != 'Y') {
+    } else if (tolower(response) != 'y') {
         printf("\nInvalid response! Assuming you want to continue.\n");
     }
 }
