@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <ctype.h> // For tolower function
+#include <ctype.h>
+#include <conio.h> // 使用 getch()
 
 // Function prototypes
 void printRightTriangle(int n);
@@ -9,34 +10,44 @@ void displayMultiplicationTable();
 void calculateSumOfSquares(int n);
 void pauseAndContinue();
 void clearScreen();
+int loginSystem(); // 新增：登入系統
 
 int main() {
     char choice;
     int n;
 
+    clearScreen();
+
+    // 登入系統，失敗三次則結束
+    if (!loginSystem()) {
+        printf("\n密碼錯誤超過三次，程式結束！\n");
+        exit(1);
+    }
+
     while (1) {
         clearScreen();
-        // Display menu
+        // 顯示選單
         printf("\n=================\n");
-        printf("a. Print Right Triangle\n");
-        printf("b. Display Multiplication Table\n");
-        printf("c. Calculate Sum of Squares\n");
-        printf("x. Exit\n");
+        printf("a. 查詢直角三角形\n");
+        printf("b. 顯示乘法表\n");
+        printf("c. 計算平方和\n");
+        printf("x. 結束\n");
         printf("=================\n");
-        printf("Enter your choice: ");
-        choice = getchar();
-        getchar(); // Consume the newline character
+        printf("請選擇功能 (直接按鍵): ");
+        
+        choice = getch(); // 不需要按 Enter
+        printf("%c\n", choice); // 顯示按下的按鍵
 
         clearScreen();
 
-        switch (tolower(choice)) { // Handle uppercase and lowercase inputs
+        switch (tolower(choice)) { // 處理大小寫
             case 'a':
-                printf("\nEnter the size of the triangle (1-50): ");
-                if (scanf("%d", &n) != 1 || getchar() != '\n') { // Validate integer input
-                    printf("Invalid input! Please enter a valid number.\n");
-                    while (getchar() != '\n'); // Clear input buffer
+                printf("\n輸入直角三角形的邊長 (1-50): ");
+                if (scanf("%d", &n) != 1 || getchar() != '\n') {
+                    printf("輸入錯誤！請輸入正確的數字。\n");
+                    while (getchar() != '\n');
                 } else if (n < 1 || n > 50) {
-                    printf("Invalid size! Please enter a number between 1 and 50.\n");
+                    printf("範圍錯誤！請輸入1到50之間的數字。\n");
                 } else {
                     printRightTriangle(n);
                 }
@@ -45,33 +56,59 @@ int main() {
                 displayMultiplicationTable();
                 break;
             case 'c':
-                printf("\nEnter an integer n (1-20): ");
-                if (scanf("%d", &n) != 1 || getchar() != '\n') { // Validate integer input
-                    printf("Invalid input! Please enter a valid number.\n");
-                    while (getchar() != '\n'); // Clear input buffer
+                printf("\n輸入一個整數 n (1-20): ");
+                if (scanf("%d", &n) != 1 || getchar() != '\n') {
+                    printf("輸入錯誤！請輸入正確的數字。\n");
+                    while (getchar() != '\n');
                 } else if (n < 1 || n > 20) {
-                    printf("Invalid input! Please enter a number between 1 and 20.\n");
+                    printf("範圍錯誤！請輸入1到20之間的數字。\n");
                 } else {
                     calculateSumOfSquares(n);
                 }
                 break;
             case 'x':
-                printf("\nExiting program. Goodbye!\n");
+                printf("\n程式結束，謝謝使用！\n");
                 exit(0);
             default:
-                printf("\nInvalid choice! Please try again.\n");
+                printf("\n無效的選項，請重新選擇。\n");
                 break;
         }
 
-        // Pause and ask if the user wants to continue
+        // 每次操作結束後詢問是否繼續
         pauseAndContinue();
     }
     return 0;
 }
 
-// Function to print a right triangle
+// 登入系統：最多允許三次機會
+int loginSystem() {
+    int password;
+    int attempt = 0;
+    const int correctPassword = 2025;
+
+    printf("歡迎使用本系統，請先登入。\n");
+
+    while (attempt < 3) {
+        printf("請輸入四位數密碼：");
+        if (scanf("%d", &password) != 1) {
+            printf("輸入錯誤！請輸入數字。\n");
+            while (getchar() != '\n');
+            continue;
+        }
+        if (password == correctPassword) {
+            printf("\n登入成功！歡迎使用。\n");
+            return 1;
+        } else {
+            printf("密碼錯誤！還有 %d 次機會。\n", 2 - attempt);
+            attempt++;
+        }
+    }
+    return 0; // 登入失敗
+}
+
+// 印出直角三角形
 void printRightTriangle(int n) {
-    printf("\nRight Triangle:\n");
+    printf("\n直角三角形：\n");
     for (int i = 1; i <= n; i++) {
         for (int j = 1; j <= i; j++) {
             printf("*");
@@ -80,9 +117,9 @@ void printRightTriangle(int n) {
     }
 }
 
-// Function to display multiplication table
+// 顯示九九乘法表
 void displayMultiplicationTable() {
-    printf("\nMultiplication Table:\n");
+    printf("\n九九乘法表：\n");
     for (int i = 1; i <= 9; i++) {
         for (int j = 1; j <= 9; j++) {
             printf("%4d", i * j);
@@ -91,31 +128,31 @@ void displayMultiplicationTable() {
     }
 }
 
-// Function to calculate the sum of squares from 1 to n*n
+// 計算1到n*n的平方和
 void calculateSumOfSquares(int n) {
-    long long sum = 0; // Use long long for larger sums
+    long long sum = 0;
     for (int i = 1; i <= n * n; i++) {
         sum += (long long)i * i;
     }
-    printf("\nThe sum of squares from 1 to %d^2 is: %lld\n", n, sum);
+    printf("\n從1到%d^2的平方和是: %lld\n", n, sum);
 }
 
-// Function to pause and ask the user if they want to continue
+// 暫停並詢問是否繼續
 void pauseAndContinue() {
     char response;
-    printf("\nDo you want to continue? (y/n): ");
-    response = getchar();
-    getchar(); // Consume the newline character
+    printf("\n是否繼續？ (y/n): ");
+    response = getch();
+    printf("%c\n", response);
 
     if (tolower(response) == 'n') {
-        printf("\nExiting program. Goodbye!\n");
+        printf("\n程式結束，謝謝使用！\n");
         exit(0);
     } else if (tolower(response) != 'y') {
-        printf("\nInvalid response! Assuming you want to continue.\n");
+        printf("\n輸入錯誤，自動回到主選單。\n");
     }
 }
 
-// Function to clear the screen
+// 清除畫面
 void clearScreen() {
     #ifdef _WIN32
         system("cls");
