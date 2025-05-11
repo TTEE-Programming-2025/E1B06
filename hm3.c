@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
 
 #define ROWS 9
@@ -8,7 +7,7 @@
 
 void displaySeats(char seats[ROWS][COLUMNS]) {
     int i, j;
-    printf("\n   \123456789\n");
+    printf("\n   123456789\n");
     for (i = 0; i < ROWS; i++) {
         printf("%2d ", ROWS - i);
         for (j = 0; j < COLUMNS; j++) {
@@ -18,11 +17,11 @@ void displaySeats(char seats[ROWS][COLUMNS]) {
     }
 }
 
-bool isValidSeat(int row, int col, char seats[ROWS][COLUMNS]) {
+int isValidSeat(int row, int col, char seats[ROWS][COLUMNS]) {
     return row >= 0 && row < ROWS && col >= 0 && col < COLUMNS && seats[row][col] == '-';
 }
 
-void bookSeats(char seats[ROWS][COLUMNS], int count, bool autoAssign) {
+void bookSeats(char seats[ROWS][COLUMNS], int count, int autoAssign) {
     int booked = 0;
     int i, j;
     if (autoAssign) {
@@ -68,7 +67,13 @@ void menu() {
 
 int main() {
     char seats[ROWS][COLUMNS];
-    memset(seats, '-', sizeof(seats));
+    int i, j;
+    for (i = 0; i < ROWS; i++) {
+        for (j = 0; j < COLUMNS; j++) {
+            seats[i][j] = '-';
+        }
+    }
+
     char choice;
     while (1) {
         menu();
