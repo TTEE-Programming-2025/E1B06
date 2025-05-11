@@ -131,3 +131,8 @@ int main() {
 
     return 0;
 }
+
+/*
+Reflection:
+Completing this project has been a valuable learning experience. I was able to deepen my understanding of essential C programming concepts, such as arrays, loops, and functions. The task of designing a user-friendly seating booking system helped me develop better problem-solving skills and required careful consideration of both functionality and user experience. While implementing and testing the code, I encountered challenges like validating user input and ensuring seamless integration between different functionalities. These challenges encouraged me to think critically and improve my debugging skills. Overall, this project has significantly enhanced my programming abilities and has motivated me to tackle more complex problems in the future.
+*/
