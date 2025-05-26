@@ -2,21 +2,24 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_STUDENTS 10
-#define SUBJECTS 6
-#define PASSWORD 2025
+#define MAX_STUDENTS 10  // 最大學生數量
+#define SUBJECTS 6       // 科目數量
+#define PASSWORD 2025    // 登入密碼
 
+// 科目名稱陣列
 const char *subjects[SUBJECTS] = {"Chinese", "English", "Math", "Science", "Social", "PE"};
 
+// 學生資料結構
 typedef struct {
-    char name[50];
-    int grades[SUBJECTS];
-    float average;
+    char name[50];               // 學生姓名
+    int grades[SUBJECTS];        // 各科成績
+    float average;               // 平均成績
 } Student;
 
-Student students[MAX_STUDENTS];
-int student_count = 0;
+Student students[MAX_STUDENTS]; // 存放學生資料的陣列
+int student_count = 0;          // 目前的學生數量
 
+// 計算某位學生的平均成績
 void calculate_average(s)
 Student *s;
 {
@@ -28,6 +31,7 @@ Student *s;
     s->average = (float)sum / SUBJECTS;
 }
 
+// 輸入學生成績資料
 void enter_student_grades()
 {
     int i;
@@ -52,6 +56,7 @@ void enter_student_grades()
     printf("Data entry completed!\n");
 }
 
+// 顯示所有學生成績資料
 void display_student_grades()
 {
     int i;
@@ -69,6 +74,7 @@ void display_student_grades()
     }
 }
 
+// 搜尋單一學生成績
 void search_student_grades()
 {
     char name[50];
@@ -89,6 +95,7 @@ void search_student_grades()
     printf("Student not found!\n");
 }
 
+// 依平均成績排序並顯示
 void grade_ranking()
 {
     int i;
@@ -98,6 +105,7 @@ void grade_ranking()
         printf("No student data available!\n");
         return;
     }
+    // 氣泡排序法由高到低排序
     for (i = 0; i < student_count - 1; i++) {
         for (j = i + 1; j < student_count; j++) {
             if (students[i].average < students[j].average) {
@@ -112,6 +120,7 @@ void grade_ranking()
     }
 }
 
+// 顯示主選單
 void show_menu()
 {
     printf("\n----------- [Grade System] -----------\n");
@@ -123,6 +132,7 @@ void show_menu()
     printf("Choose option: ");
 }
 
+// 主程式進入點
 int main()
 {
     int password;
@@ -144,27 +154,27 @@ int main()
 
         switch (option) {
             case 'a':
-                enter_student_grades();
+                enter_student_grades(); // 輸入成績
                 break;
             case 'b':
-                display_student_grades();
+                display_student_grades(); // 顯示成績
                 break;
             case 'c':
-                search_student_grades();
+                search_student_grades(); // 搜尋學生
                 break;
             case 'd':
-                grade_ranking();
+                grade_ranking(); // 成績排名
                 break;
             case 'e':
                 printf("Are you sure you want to exit? (y/n): ");
                 scanf(" %c", &confirm);
                 if (confirm == 'y' || confirm == 'Y') {
                     printf("System exited.\n");
-                    return 0;
+                    return 0; // 結束程式
                 }
                 break;
             default:
-                printf("Invalid option.\n");
+                printf("Invalid option.\n"); // 錯誤選項
         }
     }
 
