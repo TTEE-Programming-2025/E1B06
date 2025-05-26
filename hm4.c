@@ -17,16 +17,22 @@ typedef struct {
 Student students[MAX_STUDENTS];
 int student_count = 0;
 
-void calculate_average(Student *s) {
-    int i, sum = 0;
+void calculate_average(s)
+Student *s;
+{
+    int i;
+    int sum = 0;
     for (i = 0; i < SUBJECTS; i++) {
         sum += s->grades[i];
     }
     s->average = (float)sum / SUBJECTS;
 }
 
-void enter_student_grades() {
-    int i, j, n;
+void enter_student_grades()
+{
+    int i;
+    int j;
+    int n;
     printf("Enter number of students (5~10): ");
     scanf("%d", &n);
     if (n < 5 || n > 10) {
@@ -46,8 +52,10 @@ void enter_student_grades() {
     printf("Data entry completed!\n");
 }
 
-void display_student_grades() {
-    int i, j;
+void display_student_grades()
+{
+    int i;
+    int j;
     if (student_count == 0) {
         printf("No student data available!\n");
         return;
@@ -61,9 +69,11 @@ void display_student_grades() {
     }
 }
 
-void search_student_grades() {
+void search_student_grades()
+{
     char name[50];
-    int i, j;
+    int i;
+    int j;
     printf("Enter student name to search: ");
     scanf("%s", name);
     for (i = 0; i < student_count; i++) {
@@ -79,8 +89,10 @@ void search_student_grades() {
     printf("Student not found!\n");
 }
 
-void grade_ranking() {
-    int i, j;
+void grade_ranking()
+{
+    int i;
+    int j;
     Student temp;
     if (student_count == 0) {
         printf("No student data available!\n");
@@ -100,7 +112,8 @@ void grade_ranking() {
     }
 }
 
-void show_menu() {
+void show_menu()
+{
     printf("\n----------- [Grade System] -----------\n");
     printf("a. Enter student grades\n");
     printf("b. Display student grades\n");
@@ -110,9 +123,11 @@ void show_menu() {
     printf("Choose option: ");
 }
 
-int main() {
+int main()
+{
     int password;
     char option;
+    char confirm;
 
     printf("================== Welcome ==================\n");
     printf("Enter 4-digit password to login: ");
@@ -140,8 +155,7 @@ int main() {
             case 'd':
                 grade_ranking();
                 break;
-            case 'e': {
-                char confirm;
+            case 'e':
                 printf("Are you sure you want to exit? (y/n): ");
                 scanf(" %c", &confirm);
                 if (confirm == 'y' || confirm == 'Y') {
@@ -149,9 +163,10 @@ int main() {
                     return 0;
                 }
                 break;
-            }
             default:
                 printf("Invalid option.\n");
         }
     }
+
+    return 0;
 }
